@@ -1,64 +1,84 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title></title>
-<meta charset="utf-8">
-<meta name="description" content="">
-<meta name="author" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="">
-<link rel="shortcut icon" href="">
-</head>
-<body>
-↓　にスクロールしてください。
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<img src="https://sync-dsp.ad-m.asia/dsp/api/sync/send?s=geniee"></img>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #header {
+            position: fixed;
+            height: 100px;
+            overflow-y: hidden;
+            left: 0px;
+        }
+
+        #body {
+            position: absolute;
+            left: 0px;
+        }
+        body {
+            width: 100vw;
+            height: 100vh;
+        }
+        #headerHeight {
+            position: fixed;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="headerHeight">
+        <label>ヘッダ縦幅</label><input type="number" id="headerHeightInput" value="100">
+        <label>画像ファイルをドラグ&ドロップしてください</label>
+    </div>
+    <div id="body"><img src="" alt=""> </div>
+    <div id="header"><img src="" alt=""></div>
+
+    <script>
+        //@ts-check
+        const b = document.body;
+        /** @type {HTMLDivElement} */
+        const header = document.querySelector('#header');
+        /** @type {HTMLInputElement} */
+        const headerHeightInput = document.querySelector('input#headerHeightInput')
+
+        b.ondragover = (e) => e.preventDefault();
+        b.ondrop = async (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            const file = files[0];
+            const fr = new FileReader();
+            fr.onload = function (event) {
+                const value = event.target.result;
+                console.log(value);
+                document.querySelectorAll('img').forEach(img => img.src = value);
+            }
+            fr.readAsDataURL(file);
+            return false;
+        }
+        const storage = JSON.parse(window.localStorage.hoge || '{}');
+        headerHeightInput.oninput = () => {
+            storage.headerHeight = headerHeightInput.value;
+            header.style.height = `${storage.headerHeight}px`;
+            window.localStorage.hoge = JSON.stringify(storage);
+        }
+        if (storage.headerHeight) {
+            header.style.height = `${storage.headerHeight}px`
+            headerHeightInput.value = storage.headerHeight;
+        } else {
+            header.style.height = '100px';
+            headerHeightInput.value = 100;
+        }
+
+        // ヘッダ用画像の横スクロール追従
+        window.addEventListener('scroll', () => {
+            header.style.left = -window.scrollX + 'px';
+        })
+    </script>
 </body>
+
 </html>
