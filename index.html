@@ -31,8 +31,8 @@
 
 <body>
     <div id="headerHeight">
-        <label>ヘッダ縦幅</label><input type="number" id="headerHeightInput" value="100">
-        <label>画像ファイルをドラグ&ドロップしてください</label>
+        <label>Header height</label><input type="number" id="headerHeightInput" value="100"> px
+        <label>Drag and drop image files onto this page.</label>
     </div>
     <div id="body"><img src="" alt=""> </div>
     <div id="header"><img src="" alt=""></div>
@@ -74,7 +74,7 @@
             headerHeightInput.value = 100;
         }
 
-        // ヘッダ用画像の横スクロール追従
+        // Horizontal scrolling tracking of images for headers
         window.addEventListener('scroll', () => {
             header.style.left = -window.scrollX + 'px';
         })
